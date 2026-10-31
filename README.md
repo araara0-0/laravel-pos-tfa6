@@ -38,25 +38,50 @@ Raimen POS is a four-page Laravel application for IT0049 Technical Formative Ass
    php artisan key:generate
    ```
 
-5. Create the SQLite database file if it does not exist:
+5. Follow the [Database setup](#database-setup) instructions below.
 
-   ```powershell
-   New-Item database/database.sqlite -ItemType File -ErrorAction SilentlyContinue
-   ```
-
-6. Create and populate the tables:
-
-   ```powershell
-   php artisan migrate:fresh --seed
-   ```
-
-7. Start the application:
+6. Start the application:
 
    ```powershell
    php artisan serve
    ```
 
-8. Open `http://127.0.0.1:8000`.
+7. Open `http://127.0.0.1:8000`.
+
+## Database setup
+
+This project uses SQLite. Confirm that the following line is present in `.env`:
+
+```ini
+DB_CONNECTION=sqlite
+```
+
+Create the database file if it does not exist:
+
+```powershell
+New-Item database/database.sqlite -ItemType File -ErrorAction SilentlyContinue
+```
+
+Clear any cached configuration, then create the tables and insert the sample records:
+
+```powershell
+php artisan config:clear
+php artisan migrate --seed
+```
+
+Verify that every migration ran successfully:
+
+```powershell
+php artisan migrate:status
+```
+
+To completely reset the database and restore the sample records, use:
+
+```powershell
+php artisan migrate:fresh --seed
+```
+
+> **Warning:** `migrate:fresh` deletes every existing table and all of its data. Use it only when you intend to reset the database. Run the seeder only once unless you reset first, because the sample usernames are unique.
 
 ## Pages
 
